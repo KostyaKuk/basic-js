@@ -15,24 +15,24 @@ const { NotImplementedError } = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(str, options) {
-    let repeatTimes = options.hasOwnProperty('repeatTimes') ? options.repeatTimes : 1;
-    let separator = options.hasOwnProperty('separator') ? options.separator : '+';
-    let addition = options.hasOwnProperty('addition') ? options.addition : '';
-    let additionRepeatTimes = options.hasOwnProperty('additionRepeatTimes') ? options.additionRepeatTimes : 1;
-    let additionSeparator = options.hasOwnProperty('additionSeparator') ? options.additionSeparator : '|';
+                    function repeater(str, options) {
+                    let repeatTimes = options.hasOwnProperty('repeatTimes') ? options.repeatTimes : 1;
+                    let separator = options.hasOwnProperty('separator') ? options.separator : '+';
+                    let addition = options.hasOwnProperty('addition') ? options.addition : '';
+                    let additionRepeatTimes = options.hasOwnProperty('additionRepeatTimes') ? options.additionRepeatTimes : 1;
+                    let additionSeparator = options.hasOwnProperty('additionSeparator') ? options.additionSeparator : '|';
 
-    let additionWord = addition;
-    
-    for (let i = 1; i < additionRepeatTimes; i++) {
-        additionWord = additionWord + additionSeparator + addition;
-    }
-    let word = str + additionWord;
-    for (let i = 1; i < repeatTimes; i++) {
-        word = word + separator + str + additionWord;
-    }
-    return word;
-}
+                    let additionWord = addition;
+                    
+                    for (let i = 1; i < additionRepeatTimes; i++) {
+                        additionWord = additionWord + additionSeparator + addition;
+                    }
+                    let word = str + additionWord;
+                    for (let i = 1; i < repeatTimes; i++) {
+                        word = word + separator + str + additionWord;
+                    }
+                    return word;
+                }
 
 
 module.exports = {
