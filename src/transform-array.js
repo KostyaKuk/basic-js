@@ -14,28 +14,53 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform( arr ) {
-  let res = []
-  if (!Array.isArray(arr)) throw Error("'arr' parameter must be an instance of the Array!");
-  if (!arr.length) return [];
-  if ((arr.includes(el => typeof el === "object")) && (arr.includes(el === "true"))) return [];
-  if (!arr.includes('--double-prev') && !arr.includes('--discard-prev') && !arr.includes('--double-next') && !arr.includes('--discard-next')) {
-  return arr
-}
-let fixArr = [...arr]
-for(let i = 0; i < fixArr.length; i++){
-  if (fixArr[i] === '--double-next'){
-    fixArr[i] = fixArr[i + 1]
-  } else if (fixArr[i] === '--double-prev'){
-    fixArr[i] = fixArr[i - 1]
-  } else if (fixArr[i] === '--discard-prev'){
-    res.pop();
-    continue
-  } else if (fixArr[i] === '--discard-next'){
-    i +=2;
+if (!Array.isArray(arr)) {
+    throw new Error("'arr' parameter must be an instance of the Array!");
   }
-  res.push(fixArr[i]);
-}
-return res.filter(element => typeof element === "number")
+
+  const controlSequences = [
+    '--double-next',
+    '--double-prev',
+    '--discard-prev',
+    '--discard-next',
+  ];
+
+  const result = [];
+  let i = 0;
+
+  while (i < arr.length) {
+    const current = arr[i];
+
+    if (!controlSequences.includes(current)) {
+      result.push(current);
+      i++;
+      continue;
+    }
+    if (current === '--double-next') {
+      if (i + 1 < arr.length && !controlSequences.includes(arr[i + 1])) {
+        result.push(arr[i + 1]);
+      }
+      i++;
+    } else if (current === '--double-prev') {
+      if (i > 0 && !controlSequences.includes(arr[i - 1]) && result.length > 0) {
+        result.push(result[result.length - 1]);
+      }
+      i++;
+    } else if (current === '--discard ехт') {
+      if (i > 0 && !controlSequences.includes(arr[i - 1]) && result.length > 0) {
+        result.pop();
+      }
+      i++;
+    } else if (current === '--discard-next') {
+      if (i + 1 < arr.length && !controlSequences.includes(arr[i + 1])) {
+        i += 2;
+      } else {
+        i++;
+      }
+    }
+  }
+
+  return result;
 }
 
 module.exports = {
